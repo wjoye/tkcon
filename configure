@@ -622,19 +622,11 @@ ac_subst_vars='LTLIBOBJS
 LIBOBJS
 PKG_OBJECTS
 PKG_SOURCES
-MATH_LIBS
 EGREP
 GREP
 RANLIB
 SET_MAKE
-INSTALL_LIBRARY
-INSTALL_SCRIPT
-INSTALL_PROGRAM
-INSTALL_DATA
-INSTALL_DATA_DIR
-INSTALL
 CPP
-PRACTCL_WINDOWINGSYSTEM
 TK_XINCLUDES
 TK_LIBS
 TK_STUB_LIB_SPEC
@@ -668,6 +660,12 @@ TCL_SRC_DIR
 TCL_BIN_DIR
 TCL_PATCH_LEVEL
 TCL_VERSION
+INSTALL_LIBRARY
+INSTALL_SCRIPT
+INSTALL_PROGRAM
+INSTALL_DATA
+INSTALL_DATA_DIR
+INSTALL
 PKG_CFLAGS
 PKG_LIBS
 PKG_INCLUDES
@@ -679,7 +677,6 @@ PKG_STUB_LIB_FILE
 PKG_LIB_FILE
 EXEEXT
 CYGPATH
-TEA_TK_EXTENSION
 target_alias
 host_alias
 build_alias
@@ -1582,206 +1579,6 @@ $as_echo "$ac_res" >&6; }
   eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
 
 } # ac_fn_c_check_header_compile
-
-# ac_fn_c_try_link LINENO
-# -----------------------
-# Try to link conftest.$ac_ext, and return whether this succeeded.
-ac_fn_c_try_link ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  rm -f conftest.$ac_objext conftest$ac_exeext
-  if { { ac_try="$ac_link"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
-$as_echo "$ac_try_echo"; } >&5
-  (eval "$ac_link") 2>conftest.err
-  ac_status=$?
-  if test -s conftest.err; then
-    grep -v '^ *+' conftest.err >conftest.er1
-    cat conftest.er1 >&5
-    mv -f conftest.er1 conftest.err
-  fi
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; } && {
-	 test -z "$ac_c_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest$ac_exeext && {
-	 test "$cross_compiling" = yes ||
-	 test -x conftest$ac_exeext
-       }; then :
-  ac_retval=0
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_retval=1
-fi
-  # Delete the IPA/IPO (Inter Procedural Analysis/Optimization) information
-  # created by the PGI compiler (conftest_ipa8_conftest.oo), as it would
-  # interfere with the next link command; also delete a directory that is
-  # left behind by Apple's compiler.  We do this before executing the actions.
-  rm -rf conftest.dSYM conftest_ipa8_conftest.oo
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-  as_fn_set_status $ac_retval
-
-} # ac_fn_c_try_link
-
-# ac_fn_c_check_func LINENO FUNC VAR
-# ----------------------------------
-# Tests whether FUNC exists, setting the cache variable VAR accordingly
-ac_fn_c_check_func ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-/* Define $2 to an innocuous variant, in case <limits.h> declares $2.
-   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
-#define $2 innocuous_$2
-
-/* System header to define __stub macros and hopefully few prototypes,
-    which can conflict with char $2 (); below.
-    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-    <limits.h> exists even on freestanding compilers.  */
-
-#ifdef __STDC__
-# include <limits.h>
-#else
-# include <assert.h>
-#endif
-
-#undef $2
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char $2 ();
-/* The GNU C library defines this for functions which it implements
-    to always fail with ENOSYS.  Some functions are actually named
-    something starting with __ and the normal name is an alias.  */
-#if defined __stub_$2 || defined __stub___$2
-choke me
-#endif
-
-int
-main ()
-{
-return $2 ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  eval "$3=yes"
-else
-  eval "$3=no"
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-
-} # ac_fn_c_check_func
-
-# ac_fn_c_check_header_mongrel LINENO HEADER VAR INCLUDES
-# -------------------------------------------------------
-# Tests whether HEADER exists, giving a warning if it cannot be compiled using
-# the include files in INCLUDES and setting the cache variable VAR
-# accordingly.
-ac_fn_c_check_header_mongrel ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  if eval \${$3+:} false; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-else
-  # Is the header compilable?
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking $2 usability" >&5
-$as_echo_n "checking $2 usability... " >&6; }
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-$4
-#include <$2>
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  ac_header_compiler=yes
-else
-  ac_header_compiler=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_header_compiler" >&5
-$as_echo "$ac_header_compiler" >&6; }
-
-# Is the header present?
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking $2 presence" >&5
-$as_echo_n "checking $2 presence... " >&6; }
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <$2>
-_ACEOF
-if ac_fn_c_try_cpp "$LINENO"; then :
-  ac_header_preproc=yes
-else
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.i conftest.$ac_ext
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_header_preproc" >&5
-$as_echo "$ac_header_preproc" >&6; }
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in #((
-  yes:no: )
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: accepted by the compiler, rejected by the preprocessor!" >&5
-$as_echo "$as_me: WARNING: $2: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: proceeding with the compiler's result" >&5
-$as_echo "$as_me: WARNING: $2: proceeding with the compiler's result" >&2;}
-    ;;
-  no:yes:* )
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: present but cannot be compiled" >&5
-$as_echo "$as_me: WARNING: $2: present but cannot be compiled" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2:     check for missing prerequisite headers?" >&5
-$as_echo "$as_me: WARNING: $2:     check for missing prerequisite headers?" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: see the Autoconf documentation" >&5
-$as_echo "$as_me: WARNING: $2: see the Autoconf documentation" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2:     section \"Present But Cannot Be Compiled\"" >&5
-$as_echo "$as_me: WARNING: $2:     section \"Present But Cannot Be Compiled\"" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: proceeding with the compiler's result" >&5
-$as_echo "$as_me: WARNING: $2: proceeding with the compiler's result" >&2;}
-    ;;
-esac
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  eval "$3=\$ac_header_compiler"
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-fi
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-
-} # ac_fn_c_check_header_mongrel
 cat >config.log <<_ACEOF
 This file contains any messages produced by compilers while
 running configure, to aid debugging if configure makes a mistake.
@@ -2142,35 +1939,25 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 #--------------------------------------------------------------------
 
 
-    # TEA extensions pass this us the version of TEA they think they
-    # are compatible with.
-    TEA_VERSION="3.10"
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for correct TEA configuration" >&5
-$as_echo_n "checking for correct TEA configuration... " >&6; }
+    TEA_VERSION="3.13"
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking TEA configuration" >&5
+$as_echo_n "checking TEA configuration... " >&6; }
     if test x"${PACKAGE_NAME}" = x ; then
 	as_fn_error $? "
 The PACKAGE_NAME variable must be defined by your TEA configure.ac" "$LINENO" 5
     fi
-    if test x"3.10" = x ; then
-	as_fn_error $? "
-TEA version not specified." "$LINENO" 5
-    elif test "3.10" != "${TEA_VERSION}" ; then
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: warning: requested TEA version \"3.10\", have \"${TEA_VERSION}\"" >&5
-$as_echo "warning: requested TEA version \"3.10\", have \"${TEA_VERSION}\"" >&6; }
-    else
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ok (TEA ${TEA_VERSION})" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: ok (TEA ${TEA_VERSION})" >&5
 $as_echo "ok (TEA ${TEA_VERSION})" >&6; }
-    fi
 
     # If the user did not set CFLAGS, set it now to keep macros
     # like AC_PROG_CC and AC_TRY_COMPILE from adding "-g -O2".
     if test "${CFLAGS+set}" != "set" ; then
 	CFLAGS=""
     fi
-		TEA_TK_EXTENSION=0
 
     case "`uname -s`" in
-	*win32*|*WIN32*|*MINGW32_*)
+	*win32*|*WIN32*|*MINGW32_*|*MINGW64_*)
 	    # Extract the first word of "cygpath", so it can be a program name with args.
 set dummy cygpath; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2254,6 +2041,55 @@ $as_echo "$as_me: configuring ${PACKAGE_NAME} ${PACKAGE_VERSION}" >&6;}
 
     # We AC_SUBST these here to ensure they are subst'ed,
     # in case the user doesn't call TEA_ADD_...
+
+
+
+
+
+
+
+
+    # Configure the installer.
+
+    INSTALL='$(SHELL) $(srcdir)/tclconfig/install-sh -c'
+    INSTALL_DATA_DIR='${INSTALL} -d -m 755'
+    INSTALL_DATA='${INSTALL} -m 644'
+    INSTALL_PROGRAM='${INSTALL} -m 755'
+    INSTALL_SCRIPT='${INSTALL} -m 755'
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking system version" >&5
+$as_echo_n "checking system version... " >&6; }
+if ${tcl_cv_sys_version+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+	# TEA specific:
+	if test "${TEA_PLATFORM}" = "windows" ; then
+	    tcl_cv_sys_version=windows
+	else
+	    tcl_cv_sys_version=`uname -s`-`uname -r`
+	    if test "$?" -ne 0 ; then
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: can't find uname command" >&5
+$as_echo "$as_me: WARNING: can't find uname command" >&2;}
+		tcl_cv_sys_version=unknown
+	    else
+		if test "`uname -s`" = "AIX" ; then
+		    tcl_cv_sys_version=AIX-`uname -v`.`uname -r`
+		fi
+	    fi
+	fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $tcl_cv_sys_version" >&5
+$as_echo "$tcl_cv_sys_version" >&6; }
+    system=$tcl_cv_sys_version
+
+    case $system in
+	HP-UX-*) INSTALL_LIBRARY='${INSTALL} -m 755' ;;
+	      *) INSTALL_LIBRARY='${INSTALL} -m 644' ;;
+    esac
+
 
 
 
@@ -2371,6 +2207,9 @@ $as_echo "$as_me: WARNING: --with-tcl argument should refer to directory contain
 			`ls -d /Library/Frameworks 2>/dev/null` \
 			`ls -d /Network/Library/Frameworks 2>/dev/null` \
 			`ls -d /System/Library/Frameworks 2>/dev/null` \
+			`ls -d /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks/Tcl.framework 2>/dev/null` \
+			`ls -d /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Network/Library/Frameworks/Tcl.framework 2>/dev/null` \
+			`ls -d /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tcl.framework 2>/dev/null` \
 			; do
 		    if test -f "$i/Tcl.framework/tclConfig.sh" ; then
 			ac_cv_c_tclconfig="`(cd $i/Tcl.framework; pwd)`"
@@ -2397,13 +2236,17 @@ $as_echo "$as_me: WARNING: --with-tcl argument should refer to directory contain
 		for i in `ls -d ${libdir} 2>/dev/null` \
 			`ls -d ${exec_prefix}/lib 2>/dev/null` \
 			`ls -d ${prefix}/lib 2>/dev/null` \
-			`ls -d /usr/contrib/lib 2>/dev/null` \
 			`ls -d /usr/local/lib 2>/dev/null` \
+			`ls -d /usr/contrib/lib 2>/dev/null` \
 			`ls -d /usr/pkg/lib 2>/dev/null` \
 			`ls -d /usr/lib 2>/dev/null` \
 			`ls -d /usr/lib64 2>/dev/null` \
 			`ls -d /usr/lib/tcl8.6 2>/dev/null` \
 			`ls -d /usr/lib/tcl8.5 2>/dev/null` \
+			`ls -d /usr/local/lib/tcl8.6 2>/dev/null` \
+			`ls -d /usr/local/lib/tcl8.5 2>/dev/null` \
+			`ls -d /usr/local/lib/tcl/tcl8.6 2>/dev/null` \
+			`ls -d /usr/local/lib/tcl/tcl8.5 2>/dev/null` \
 			; do
 		    if test -f "$i/tclConfig.sh" ; then
 			ac_cv_c_tclconfig="`(cd $i; pwd)`"
@@ -3411,7 +3254,6 @@ _ACEOF
     if test x"${no_tk}" = x ; then
 	# we reset no_tk in case something fails here
 	no_tk=true
-  TEA_TK_EXTENSION=0
 
 # Check whether --with-tk was given.
 if test "${with_tk+set}" = set; then :
@@ -3475,6 +3317,9 @@ $as_echo "$as_me: WARNING: --with-tk argument should refer to directory containi
 			`ls -d /Library/Frameworks 2>/dev/null` \
 			`ls -d /Network/Library/Frameworks 2>/dev/null` \
 			`ls -d /System/Library/Frameworks 2>/dev/null` \
+			`ls -d /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks/Tcl.framework 2>/dev/null` \
+			`ls -d /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Network/Library/Frameworks/Tcl.framework 2>/dev/null` \
+			`ls -d /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tcl.framework 2>/dev/null` \
 			; do
 		    if test -f "$i/Tk.framework/tkConfig.sh" ; then
 			ac_cv_c_tkconfig="`(cd $i/Tk.framework; pwd)`"
@@ -3490,8 +3335,15 @@ $as_echo "$as_me: WARNING: --with-tk argument should refer to directory containi
 			`ls -d ${prefix}/lib 2>/dev/null` \
 			`ls -d /usr/local/lib 2>/dev/null` \
 			`ls -d /usr/contrib/lib 2>/dev/null` \
+			`ls -d /usr/pkg/lib 2>/dev/null` \
 			`ls -d /usr/lib 2>/dev/null` \
 			`ls -d /usr/lib64 2>/dev/null` \
+			`ls -d /usr/lib/tk8.6 2>/dev/null` \
+			`ls -d /usr/lib/tk8.5 2>/dev/null` \
+			`ls -d /usr/local/lib/tk8.6 2>/dev/null` \
+			`ls -d /usr/local/lib/tk8.5 2>/dev/null` \
+			`ls -d /usr/local/lib/tcl/tk8.6 2>/dev/null` \
+			`ls -d /usr/local/lib/tcl/tk8.5 2>/dev/null` \
 			; do
 		    if test -f "$i/tkConfig.sh" ; then
 			ac_cv_c_tkconfig="`(cd $i; pwd)`"
@@ -3540,7 +3392,6 @@ fi
 	    as_fn_error $? "Can't find Tk configuration definitions. Use --with-tk to specify a directory containing tkConfig.sh" "$LINENO" 5
 	else
 	    no_tk=
-		  TEA_TK_EXTENSION=1
 	    TK_BIN_DIR="${ac_cv_c_tkconfig}"
 	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found ${TK_BIN_DIR}/tkConfig.sh" >&5
 $as_echo "found ${TK_BIN_DIR}/tkConfig.sh" >&6; }
@@ -3604,44 +3455,20 @@ $as_echo "could not find ${TK_BIN_DIR}/tkConfig.sh" >&6; }
     eval "TK_STUB_LIB_SPEC=\"${TK_STUB_LIB_SPEC}\""
 
     # TEA specific: Ensure windowingsystem is defined
-    case ${TK_DEFS} in
-	*PLATFORM_SDL*)
-	    TEA_WINDOWINGSYSTEM="x11"
-            PRACTCL_WINDOWINGSYSTEM="sdl"
-	    TEA_USE_SDL=yes
-	    ;;
-    esac
-    if test "${TEA_USE_SDL}" = "yes" ; then
-	true
-    elif test "${TEA_PLATFORM}" = "unix" ; then
+    if test "${TEA_PLATFORM}" = "unix" ; then
 	case ${TK_DEFS} in
 	    *MAC_OSX_TK*)
 
 $as_echo "#define MAC_OSX_TK 1" >>confdefs.h
 
 		TEA_WINDOWINGSYSTEM="aqua"
-                PRACTCL_WINDOWINGSYSTEM="cocoa"
-                TEA_USE_HITHEME=no;
-                if test "${TK_VERSION}" = "8.5" ; then
-                  if test "${TK_PATCH_LEVEL}" > ".17" ; then
-                    TEA_USE_HITHEME=yes;
-                  fi
-                elif test "${TK_VERSION}" = "8.6" ; then
-                  if test "${TK_PATCH_LEVEL}" > ".3" ; then
-                    TEA_USE_HITHEME=yes;
-                  fi
-                elif test "${TK_VERSION}" > "8.6" ; then
-                    TEA_USE_HITHEME=yes;
-                fi
 		;;
 	    *)
 		TEA_WINDOWINGSYSTEM="x11"
-                PRACTCL_WINDOWINGSYSTEM="x11"
 		;;
 	esac
     elif test "${TEA_PLATFORM}" = "windows" ; then
 	TEA_WINDOWINGSYSTEM="win32"
-        PRACTCL_WINDOWINGSYSTEM="windows"
     fi
 
 
@@ -3658,8 +3485,6 @@ $as_echo "#define MAC_OSX_TK 1" >>confdefs.h
 
     # TEA specific:
 
-
-    # Practcl
 
 
 
@@ -4383,20 +4208,6 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-    INSTALL='$(SHELL) $(srcdir)/tclconfig/install-sh -c'
-    INSTALL_DATA_DIR='${INSTALL} -d -m 755'
-    INSTALL_DATA='${INSTALL} -m 644'
-    INSTALL_PROGRAM='${INSTALL}'
-    INSTALL_SCRIPT='${INSTALL}'
-    INSTALL_LIBRARY='${INSTALL_DATA}'
-
-
-
-
-
-
-
-
     #--------------------------------------------------------------------
     # Checks to see if the make program sets the $MAKE variable.
     #--------------------------------------------------------------------
@@ -5068,480 +4879,6 @@ $as_echo "#define AC_APPLE_UNIVERSAL_BUILD 1" >>confdefs.h
  presetting ac_cv_c_bigendian=no (or yes) will help" "$LINENO" 5 ;;
  esac
 
-    if test "${TEA_PLATFORM}" = "unix" ; then
-
-    #--------------------------------------------------------------------
-    # On a few very rare systems, all of the libm.a stuff is
-    # already in libc.a.  Set compiler flags accordingly.
-    # Also, Linux requires the "ieee" library for math to work
-    # right (and it must appear before "-lm").
-    #--------------------------------------------------------------------
-
-    ac_fn_c_check_func "$LINENO" "sin" "ac_cv_func_sin"
-if test "x$ac_cv_func_sin" = xyes; then :
-  MATH_LIBS=""
-else
-  MATH_LIBS="-lm"
-fi
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lieee" >&5
-$as_echo_n "checking for main in -lieee... " >&6; }
-if ${ac_cv_lib_ieee_main+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lieee  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-
-int
-main ()
-{
-return main ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_ieee_main=yes
-else
-  ac_cv_lib_ieee_main=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ieee_main" >&5
-$as_echo "$ac_cv_lib_ieee_main" >&6; }
-if test "x$ac_cv_lib_ieee_main" = xyes; then :
-  MATH_LIBS="-lieee $MATH_LIBS"
-fi
-
-
-    #--------------------------------------------------------------------
-    # Interactive UNIX requires -linet instead of -lsocket, plus it
-    # needs net/errno.h to define the socket-related error codes.
-    #--------------------------------------------------------------------
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -linet" >&5
-$as_echo_n "checking for main in -linet... " >&6; }
-if ${ac_cv_lib_inet_main+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-linet  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-
-int
-main ()
-{
-return main ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_inet_main=yes
-else
-  ac_cv_lib_inet_main=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_inet_main" >&5
-$as_echo "$ac_cv_lib_inet_main" >&6; }
-if test "x$ac_cv_lib_inet_main" = xyes; then :
-  LIBS="$LIBS -linet"
-fi
-
-    ac_fn_c_check_header_mongrel "$LINENO" "net/errno.h" "ac_cv_header_net_errno_h" "$ac_includes_default"
-if test "x$ac_cv_header_net_errno_h" = xyes; then :
-
-
-$as_echo "#define HAVE_NET_ERRNO_H 1" >>confdefs.h
-
-fi
-
-
-
-    #--------------------------------------------------------------------
-    #	Check for the existence of the -lsocket and -lnsl libraries.
-    #	The order here is important, so that they end up in the right
-    #	order in the command line generated by make.  Here are some
-    #	special considerations:
-    #	1. Use "connect" and "accept" to check for -lsocket, and
-    #	   "gethostbyname" to check for -lnsl.
-    #	2. Use each function name only once:  can't redo a check because
-    #	   autoconf caches the results of the last check and won't redo it.
-    #	3. Use -lnsl and -lsocket only if they supply procedures that
-    #	   aren't already present in the normal libraries.  This is because
-    #	   IRIX 5.2 has libraries, but they aren't needed and they're
-    #	   bogus:  they goof up name resolution if used.
-    #	4. On some SVR4 systems, can't use -lsocket without -lnsl too.
-    #	   To get around this problem, check for both libraries together
-    #	   if -lsocket doesn't work by itself.
-    #--------------------------------------------------------------------
-
-    tcl_checkBoth=0
-    ac_fn_c_check_func "$LINENO" "connect" "ac_cv_func_connect"
-if test "x$ac_cv_func_connect" = xyes; then :
-  tcl_checkSocket=0
-else
-  tcl_checkSocket=1
-fi
-
-    if test "$tcl_checkSocket" = 1; then
-	ac_fn_c_check_func "$LINENO" "setsockopt" "ac_cv_func_setsockopt"
-if test "x$ac_cv_func_setsockopt" = xyes; then :
-
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for setsockopt in -lsocket" >&5
-$as_echo_n "checking for setsockopt in -lsocket... " >&6; }
-if ${ac_cv_lib_socket_setsockopt+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lsocket  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char setsockopt ();
-int
-main ()
-{
-return setsockopt ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_socket_setsockopt=yes
-else
-  ac_cv_lib_socket_setsockopt=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_socket_setsockopt" >&5
-$as_echo "$ac_cv_lib_socket_setsockopt" >&6; }
-if test "x$ac_cv_lib_socket_setsockopt" = xyes; then :
-  LIBS="$LIBS -lsocket"
-else
-  tcl_checkBoth=1
-fi
-
-fi
-
-    fi
-    if test "$tcl_checkBoth" = 1; then
-	tk_oldLibs=$LIBS
-	LIBS="$LIBS -lsocket -lnsl"
-	ac_fn_c_check_func "$LINENO" "accept" "ac_cv_func_accept"
-if test "x$ac_cv_func_accept" = xyes; then :
-  tcl_checkNsl=0
-else
-  LIBS=$tk_oldLibs
-fi
-
-    fi
-    ac_fn_c_check_func "$LINENO" "gethostbyname" "ac_cv_func_gethostbyname"
-if test "x$ac_cv_func_gethostbyname" = xyes; then :
-
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gethostbyname in -lnsl" >&5
-$as_echo_n "checking for gethostbyname in -lnsl... " >&6; }
-if ${ac_cv_lib_nsl_gethostbyname+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lnsl  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char gethostbyname ();
-int
-main ()
-{
-return gethostbyname ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_nsl_gethostbyname=yes
-else
-  ac_cv_lib_nsl_gethostbyname=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_nsl_gethostbyname" >&5
-$as_echo "$ac_cv_lib_nsl_gethostbyname" >&6; }
-if test "x$ac_cv_lib_nsl_gethostbyname" = xyes; then :
-  LIBS="$LIBS -lnsl"
-fi
-
-fi
-
-
-    # TEA specific: Don't perform the eval of the libraries here because
-    # DL_LIBS won't be set until we call TEA_CONFIG_CFLAGS
-
-    TCL_LIBS='${DL_LIBS} ${LIBS} ${MATH_LIBS}'
-
-
-
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking dirent.h" >&5
-$as_echo_n "checking dirent.h... " >&6; }
-if ${tcl_cv_dirent_h+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/types.h>
-#include <dirent.h>
-int
-main ()
-{
-
-#ifndef _POSIX_SOURCE
-#   ifdef __Lynx__
-	/*
-	 * Generate compilation error to make the test fail:  Lynx headers
-	 * are only valid if really in the POSIX environment.
-	 */
-
-	missing_procedure();
-#   endif
-#endif
-DIR *d;
-struct dirent *entryPtr;
-char *p;
-d = opendir("foobar");
-entryPtr = readdir(d);
-p = entryPtr->d_name;
-closedir(d);
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  tcl_cv_dirent_h=yes
-else
-  tcl_cv_dirent_h=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $tcl_cv_dirent_h" >&5
-$as_echo "$tcl_cv_dirent_h" >&6; }
-
-    if test $tcl_cv_dirent_h = no; then
-
-$as_echo "#define NO_DIRENT_H 1" >>confdefs.h
-
-    fi
-
-    # TEA specific:
-    ac_fn_c_check_header_mongrel "$LINENO" "errno.h" "ac_cv_header_errno_h" "$ac_includes_default"
-if test "x$ac_cv_header_errno_h" = xyes; then :
-
-else
-
-$as_echo "#define NO_ERRNO_H 1" >>confdefs.h
-
-fi
-
-
-    ac_fn_c_check_header_mongrel "$LINENO" "float.h" "ac_cv_header_float_h" "$ac_includes_default"
-if test "x$ac_cv_header_float_h" = xyes; then :
-
-else
-
-$as_echo "#define NO_FLOAT_H 1" >>confdefs.h
-
-fi
-
-
-    ac_fn_c_check_header_mongrel "$LINENO" "values.h" "ac_cv_header_values_h" "$ac_includes_default"
-if test "x$ac_cv_header_values_h" = xyes; then :
-
-else
-
-$as_echo "#define NO_VALUES_H 1" >>confdefs.h
-
-fi
-
-
-    ac_fn_c_check_header_mongrel "$LINENO" "limits.h" "ac_cv_header_limits_h" "$ac_includes_default"
-if test "x$ac_cv_header_limits_h" = xyes; then :
-
-$as_echo "#define HAVE_LIMITS_H 1" >>confdefs.h
-
-else
-
-$as_echo "#define NO_LIMITS_H 1" >>confdefs.h
-
-fi
-
-
-    ac_fn_c_check_header_mongrel "$LINENO" "stdlib.h" "ac_cv_header_stdlib_h" "$ac_includes_default"
-if test "x$ac_cv_header_stdlib_h" = xyes; then :
-  tcl_ok=1
-else
-  tcl_ok=0
-fi
-
-
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdlib.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "strtol" >/dev/null 2>&1; then :
-
-else
-  tcl_ok=0
-fi
-rm -f conftest*
-
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdlib.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "strtoul" >/dev/null 2>&1; then :
-
-else
-  tcl_ok=0
-fi
-rm -f conftest*
-
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdlib.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "strtod" >/dev/null 2>&1; then :
-
-else
-  tcl_ok=0
-fi
-rm -f conftest*
-
-    if test $tcl_ok = 0; then
-
-$as_echo "#define NO_STDLIB_H 1" >>confdefs.h
-
-    fi
-    ac_fn_c_check_header_mongrel "$LINENO" "string.h" "ac_cv_header_string_h" "$ac_includes_default"
-if test "x$ac_cv_header_string_h" = xyes; then :
-  tcl_ok=1
-else
-  tcl_ok=0
-fi
-
-
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <string.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "strstr" >/dev/null 2>&1; then :
-
-else
-  tcl_ok=0
-fi
-rm -f conftest*
-
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <string.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "strerror" >/dev/null 2>&1; then :
-
-else
-  tcl_ok=0
-fi
-rm -f conftest*
-
-
-    # See also memmove check below for a place where NO_STRING_H can be
-    # set and why.
-
-    if test $tcl_ok = 0; then
-
-$as_echo "#define NO_STRING_H 1" >>confdefs.h
-
-    fi
-
-    ac_fn_c_check_header_mongrel "$LINENO" "sys/wait.h" "ac_cv_header_sys_wait_h" "$ac_includes_default"
-if test "x$ac_cv_header_sys_wait_h" = xyes; then :
-
-else
-
-$as_echo "#define NO_SYS_WAIT_H 1" >>confdefs.h
-
-fi
-
-
-    ac_fn_c_check_header_mongrel "$LINENO" "dlfcn.h" "ac_cv_header_dlfcn_h" "$ac_includes_default"
-if test "x$ac_cv_header_dlfcn_h" = xyes; then :
-
-else
-
-$as_echo "#define NO_DLFCN_H 1" >>confdefs.h
-
-fi
-
-
-
-    # OS/390 lacks sys/param.h (and doesn't need it, by chance).
-    for ac_header in sys/param.h
-do :
-  ac_fn_c_check_header_mongrel "$LINENO" "sys/param.h" "ac_cv_header_sys_param_h" "$ac_includes_default"
-if test "x$ac_cv_header_sys_param_h" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_SYS_PARAM_H 1
-_ACEOF
-
-fi
-
-done
-
-
-	# Let the user call this, because if it triggers, they will
-	# need a compat/strtod.c that is correct.  Users can also
-	# use Tcl_GetDouble(FromObj) instead.
-	#TEA_BUGGY_STRTOD
-    fi
 
 
 #-----------------------------------------------------------------------
@@ -5611,12 +4948,8 @@ done
     vars=""
     for i in $vars; do
 	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" = "yes" ; then
-          case $i in
-            *.lib)
-              # Convert foo.lib to -lfoo for GCC
-                i=-l`echo "$i" | sed -e 's/\.[^.]*$//' -e 's/\.lib.*//'`
-            ;;
-          esac
+	    # Convert foo.lib to -lfoo for GCC.  No-op if not *.lib
+	    i=`echo "$i" | sed -e 's/^\([^-].*\)\.lib$/-l\1/i'`
 	fi
 	PKG_LIBS="$PKG_LIBS $i"
     done
@@ -5751,12 +5084,26 @@ fi
 #TEA_PROG_WISH
 
 #--------------------------------------------------------------------
-# Finally, substitute all of the various values into the Makefile.
-# You may alternatively have a special pkgIndex.tcl.in or other files
-# which require substituting th AC variables in.  Include these here.
+# Setup a *Config.sh.in configuration file.
+#--------------------------------------------------------------------
+
+#TEA_EXPORT_CONFIG([sample])
+#AC_SUBST(SAMPLE_VAR)
+
+#--------------------------------------------------------------------
+# Specify files to substitute AC variables in. You may alternatively
+# have a special pkgIndex.tcl.in or other files which require
+# substituting the AC variables in. Include these here.
 #--------------------------------------------------------------------
 
 ac_config_files="$ac_config_files Makefile"
+
+#AC_CONFIG_FILES([sampleConfig.sh])
+
+#--------------------------------------------------------------------
+# Finally, substitute all of the various values into the files
+# specified with AC_CONFIG_FILES.
+#--------------------------------------------------------------------
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
