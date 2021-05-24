@@ -1,7 +1,8 @@
-WHAT:   Enhanced Tk Console for all Tk platforms
+WHAT:   Enhanced Tk Console for all Tk platforms  V2.7.10
 
 WHERE:  http://tkcon.sourceforge.net/
 	http://www.purl.org/net/hobbs/tcl/script/
+	https://github.com/KarlCHansen/tkcon
 
 REQUIREMENTS: Tcl/Tk 8.4+
 	Tested through Tcl/Tk 8.6.
@@ -30,7 +31,18 @@ FEATURES:
         (including non-tcl ones)
     Works on all Tk platforms
 
+CHANGES:
+    V2.7.10  kch   Cloned the latest version I could find. Development has
+                   stalled on this for several years. This adds the classic
+		   web-browser "ctrl-plus" and "ctrl-minus" handlers to change
+		   the font size. I needed these because I started working on
+		   2K and 4K monitors and the default font sizes were far too
+		   small to read.  Note that the menus on Win10 are rendured
+		   with the native menuing system, so without major rewrite
+		   the menus cannot be resized.
+
 CONTACT: Jeffrey Hobbs, jeff at hobbs dot org
+	 kch, Karl Hansen, karl<nothinghere>hansen1425 -at- gee-male daught com
 
 GETTING STARTED:
 

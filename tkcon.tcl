@@ -3,6 +3,21 @@
 # \
 exec wish "$0" ${1+"$@"}
 
+# @@ Meta Begin
+# Application tkcon 2.7
+# Meta platform     tcl
+# Meta summary      Enhanced Tk Console
+# Meta description  Enhanced Tk Console
+# Meta description  Originally based off Brent Welch's
+# Meta description  Tcl Shell Widget
+# Meta category     Shell
+# Meta subject      console tk remote
+# Meta require      {Tk 8} {Tcl 8} {http 2}
+# Meta recommend    ctext base64 Trf ActiveTcl
+# Meta author       Jeff Hobbs
+# Meta license      Tcl (+ bourbonware clause).
+# @@ Meta End
+
 #
 ## tkcon.tcl
 ## Enhanced Tk Console, part of the VerTcl system
@@ -66,7 +81,7 @@ catch {unset pkg file name version}
 namespace eval ::tkcon {
     # when modifying this line, make sure that the auto-upgrade check
     # for version still works.
-    variable VERSION "2.7"
+    variable VERSION "2.7.10"
     # The OPT variable is an array containing most of the optional
     # info to configure.  COLOR has the color data.
     variable OPT
@@ -74,10 +89,19 @@ namespace eval ::tkcon {
 
     # PRIV is used for internal data that only tkcon should fiddle with.
     variable PRIV
-    set PRIV(WWW) [info exists embed_args]
-    set PRIV(AQUA) [expr {$::tcl_version >= 8.4 && [tk windowingsystem] == "aqua"}]
-    set PRIV(CTRL) [expr {$PRIV(AQUA) ? "Command-" : "Control-"}]
-    set PRIV(ACC) [expr {$PRIV(AQUA) ? "Command-" : "Ctrl+"}]
+    set PRIV(WWW)        [info exists embed_args]
+    set PRIV(AQUA)       [expr {$::tcl_version >= 8.4 && [tk windowingsystem] == "aqua"}]
+    set PRIV(CTRL)       [expr {$PRIV(AQUA) ? "Command-" : "Control-"}]
+    set PRIV(ACC)        [expr {$PRIV(AQUA) ? "Command-" : "Ctrl+"}]
+	set PRIV(font.scale) 1.0
+	set PRIV(font.type)  Courier
+	set PRIV(font.size)  12
+	set PRIV(font.list)  {
+                         tkconfixed        12
+						 tkconfixedbold    12
+						 tkconfixedlarge   18
+						 tkconfixedsmall   8
+	                     }
 
     variable EXPECT 0
 }
@@ -186,7 +210,7 @@ proc ::tkcon::Init {args} {
 	    alias clear dir dump echo idebug lremove
 	    tkcon_puts tkcon_gets observe observe_var unalias which what
 	}
-	RCS		{RCS: @(#) $Id: tkcon.tcl,v 1.124 2016/09/14 21:14:43 hobbs Exp $}
+	RCS		{RCS: @(#) $Id: tkcon.tcl,v 1.119 2012/12/27 23:06:24 hobbs Exp $}
 	HEADURL		{http://tkcon.cvs.sourceforge.net/viewvc/tkcon/tkcon/tkcon.tcl}
 
 	docs		"http://tkcon.sourceforge.net/"
@@ -617,8 +641,10 @@ proc ::tkcon::InitUI {title} {
     }
     set PRIV(base) $w
 
-    catch {font create tkconfixed -family Courier -size -12}
-    catch {font create tkconfixedbold -family Courier -size -12 -weight bold}
+    catch {font create tkconfixed      -family Courier -size -12}
+    catch {font create tkconfixedbold  -family Courier -size -12 -weight bold}
+    catch {font create tkconfixedlarge -family Courier -size -18 -weight bold}
+    catch {font create tkconfixedsmall -family Courier -size -8  -weight bold}
 
     set PRIV(statusbar) [set sbar [frame $w.fstatus]]
     set PRIV(tabframe)  [frame $sbar.tabs]
@@ -1121,10 +1147,6 @@ proc ::tkcon::AddSlaveHistory cmd {
     set code [catch {EvalSlave history event $ev} lastCmd]
     if {$code || $cmd ne $lastCmd} {
 	EvalSlave history add $cmd
-	# Save history every time so it's not lost in case of an abnormal termination.
-	# Do not warn in case of an error: we don't want an error message 
-	# after each command if the history file is not writable.
-	catch {SaveHistory}
     }
 }
 
@@ -1441,7 +1463,7 @@ proc ::tkcon::About {} {
 	grid $w.text -sticky news
 	grid $w.b -sticky se -padx 6 -pady 4
 	$w.text tag config center -justify center
-	$w.text tag config title -justify center -font {Courier -18 bold}
+	$w.text tag config title  -justify center -font tkconfixedlarge
 	# strip down the RCS info displayed in the about box
 	regexp {,v ([0-9\./: ]*)} $PRIV(RCS) -> RCS
 	$w.text insert 1.0 "About tkcon v$PRIV(version)" title \
@@ -2604,40 +2626,30 @@ proc ::tkcon::MainInit {} {
 	}
 	proc ::exit args {
 	    if {$::tkcon::OPT(usehistory)} {
-		if {[catch {::tkcon::SaveHistory} msg]} {
-		    puts stderr "unable to save history file:\n$msg"
+		if {[catch {open $::tkcon::PRIV(histfile) w} fid]} {
+		    puts stderr "unable to save history file:\n$fid"
 		    # pause a moment, because we are about to die finally...
 		    after 1000
+		} else {
+		    set max [::tkcon::EvalSlave history nextid]
+		    set id [expr {$max - $::tkcon::OPT(history)}]
+		    if {$id < 1} { set id 1 }
+		    ## FIX: This puts history in backwards!!
+		    while {($id < $max) && ![catch \
+			    {::tkcon::EvalSlave history event $id} cmd]} {
+			if {$cmd ne ""} {
+			    puts $fid "::tkcon::EvalSlave\
+				    history add [list $cmd]"
+			}
+			incr id
+		    }
+		    close $fid
 		}
 	    }
 	    uplevel 1 ::tkcon::FinalExit $args
 	}
     }
 
-    ## ::tkcon::SaveHistory - saves history to history file
-    ## If the history file is not writable it raises an error
-    proc ::tkcon::SaveHistory {} {
-	if {$::tkcon::OPT(usehistory)} {
-	    if {[catch {open $::tkcon::PRIV(histfile) w} fid]} {
-		error $fid
-	    } else {
-		set max [::tkcon::EvalSlave history nextid]
-		set id [expr {$max - $::tkcon::OPT(history)}]
-		if {$id < 1} { set id 1 }
-		## FIX: This puts history in backwards!!
-		while {($id < $max) && ![catch \
-			{::tkcon::EvalSlave history event $id} cmd]} {
-		    if {$cmd ne ""} {
-			puts $fid "::tkcon::EvalSlave\
-			    history add [list $cmd]"
-			}
-		    incr id
-		}
-		close $fid
-	    }
-	}
-    }
-    
     ## ::tkcon::InterpEval - passes evaluation to another named interpreter
     ## If the interpreter is named, but no args are given, it returns the
     ## [tk appname] of that interps master (not the associated eval slave).
@@ -3070,8 +3082,8 @@ proc ::tkcon::HighlightError w {
 	    set tag [UniqueTag $w]
 	    $w tag add $tag $start+${c0}c $start+1c+${c1}c
 	    $w tag configure $tag -foreground $COLOR(stdout)
-	    $w tag bind $tag <Enter> [list $w tag configure $tag -underline 1]
-	    $w tag bind $tag <Leave> [list $w tag configure $tag -underline 0]
+	    $w tag bind $tag <Enter> [list $w tag configure $tag -under 1]
+	    $w tag bind $tag <Leave> [list $w tag configure $tag -under 0]
 	    $w tag bind $tag <ButtonRelease-1> "if {!\$tk::Priv(mouseMoved)} \
 		    {[list $OPT(edit) -attach $app -type proc -find $what -- $cmd]}"
 	}
@@ -3099,8 +3111,8 @@ proc ::tkcon::HighlightError w {
 	    set tag [UniqueTag $w]
 	    $w tag add $tag $ix+1c $start
 	    $w tag configure $tag -foreground $COLOR(proc)
-	    $w tag bind $tag <Enter> [list $w tag configure $tag -underline 1]
-	    $w tag bind $tag <Leave> [list $w tag configure $tag -underline 0]
+	    $w tag bind $tag <Enter> [list $w tag configure $tag -under 1]
+	    $w tag bind $tag <Leave> [list $w tag configure $tag -under 0]
 	    $w tag bind $tag <ButtonRelease-1> "if {!\$tk::Priv(mouseMoved)} \
 		    {[list $OPT(edit) -attach $app -type proc -- $cmd]}"
 	}
@@ -3697,8 +3709,8 @@ proc tkcon {cmd args} {
 	    if {![winfo exists $PRIV(root)]} {
 		eval [linsert $args 0 ::tkcon::Init]
 	    }
-	    # this may throw an error if toplevel is embedded
-	    catch {wm deiconify $PRIV(root); raise $PRIV(root)}
+	    wm deiconify $PRIV(root)
+	    raise $PRIV(root)
 	    focus -force $PRIV(console)
 	}
 	ti* {
@@ -3935,14 +3947,14 @@ proc edit {args} {
     ##
     set text $w.text
     set m [menu [::tkcon::MenuButton $menu Edit edit]]
-    $m add command -label "Cut"   -underline 2 \
+    $m add command -label "Cut"   -under 2 \
 	-command [list tk_textCut $text]
-    $m add command -label "Copy"  -underline 0 \
+    $m add command -label "Copy"  -under 0 \
 	-command [list tk_textCopy $text]
-    $m add command -label "Paste" -underline 0 \
+    $m add command -label "Paste" -under 0 \
 	-command [list tk_textPaste $text]
     $m add separator
-    $m add command -label "Find" -underline 0 \
+    $m add command -label "Find" -under 0 \
 	-command [list ::tkcon::FindBox $text]
 
     ## Send To Menu
@@ -3996,8 +4008,6 @@ proc edit {args} {
 	    $w.text insert 1.0 [join $args \n]
 	}
     }
-    # prevent stuff above being "undoable" in newer Tk
-    catch { $w.text edit reset ; $w.text edit modified 0 }
     wm deiconify $w
     focus $w.text
     if {[string compare $opts(-find) {}]} {
@@ -4344,15 +4354,14 @@ proc idebug {opt args} {
     set level [expr {[info level]-1}]
     switch -glob -- $opt {
 	on	{
-	    # id is just arg0 [bug #50]
-	    if {[llength $args]} { set IDEBUG(id) [lindex $args 0] }
+	    if {[llength $args]} { set IDEBUG(id) $args }
 	    return [set IDEBUG(on) 1]
 	}
 	off	{ return [set IDEBUG(on) 0] }
 	id  {
 	    if {![llength $args]} {
 		return $IDEBUG(id)
-	    } else { return [set IDEBUG(id) [lindex $args 0]] }
+	    } else { return [set IDEBUG(id) $args] }
 	}
 	break {
 	    if {!$IDEBUG(on) || $IDEBUG(debugging) || \
@@ -5087,6 +5096,60 @@ proc tcl_unknown args {
 
 } ; # end exclusionary code for WWW
 
+#---------------------------------------------------------------------------
+#
+# Procedures for manipulating the font sizes.
+# The scale can be bumped up or down, but is restricted to 0.20...5.0.
+#
+#---------------------------------------------------------------------------
+
+############################################################################
+#
+# ResizeSet <scale>
+#
+# Sets the scaling factor for fonts (and TkCon UI)
+# Updates the relative sizes of the UI fonts
+# Refreshes the UI to reflect the updated fonts.
+#
+############################################################################
+proc ::tkcon::ResizeSet {{scale 1.0}} {
+  if {$scale < 0.20} {
+	set scale 0.20
+  } elseif {$scale > 5.0} {
+    set scale 5.0
+  }
+  set ::tkcon::PRIV(font.scale) $scale
+
+  foreach {name size} $::tkcon::PRIV(font.list) {
+    font configure $name -size [expr {round($size * $scale)}]
+  }
+
+  $::tkcon::PRIV(console) configure -font tkconfixed
+#  $::tkcon::PRIV(menubar) configure -font tkconfixed
+}; # ResizeSet {}
+
+############################################################################
+#
+# ResizeUp
+#
+# Increases the font sizes by a factor of 1.08.
+#
+############################################################################
+proc ::tkcon::ResizeUp {} {
+  ResizeSet [expr {$::tkcon::PRIV(font.scale) * 1.08}]
+}; # ResizeUp {}
+
+############################################################################
+#
+# ResizeDn
+#
+# Decreases the font sizes by a factor of 1.08.
+#
+############################################################################
+proc ::tkcon::ResizeDn {} {
+  ResizeSet [expr {$::tkcon::PRIV(font.scale) / 1.08}]
+}; # ResizeDn {}
+
 proc ::tkcon::Bindings {} {
     variable PRIV
     global tcl_platform tk_version
@@ -5104,10 +5167,6 @@ proc ::tkcon::Bindings {} {
     ## We really didn't want the newline insertion
     bind TkConsole <Control-Key-o> {}
 
-    if {$PRIV(AQUA)} {
-	bind TkConsole <<LineStart>> {tk::TextSetCursor %W limit}
-    }
-
     ## in 8.6b3, the virtual events <<NextLine>> and <<PrevLine>> 
     #  mess up our history feature
     bind TkConsole <<NextLine>> {}
@@ -5115,6 +5174,8 @@ proc ::tkcon::Bindings {} {
 
     ## Now make all our virtual event bindings
     set bindings {
+	<<TkCon_ResizeUp>>  <$PRIV(CTRL)-plus>
+	<<TkCon_ResizeDn>>  <$PRIV(CTRL)-minus>
 	<<TkCon_Exit>>		<$PRIV(CTRL)-q>
 	<<TkCon_New>>		<$PRIV(CTRL)-N>
 	<<TkCon_NewTab>>	<$PRIV(CTRL)-T>
@@ -5162,15 +5223,18 @@ proc ::tkcon::Bindings {} {
     }
 
     ## Make the ROOT bindings
-    bind $PRIV(root) <<TkCon_Exit>>	exit
-    bind $PRIV(root) <<TkCon_New>>	{ ::tkcon::New }
-    bind $PRIV(root) <<TkCon_NewTab>>	{ ::tkcon::NewTab }
-    bind $PRIV(root) <<TkCon_NextTab>>	{ ::tkcon::GotoTab 1 ; break }
-    bind $PRIV(root) <<TkCon_PrevTab>>	{ ::tkcon::GotoTab -1 ; break }
-    bind $PRIV(root) <<TkCon_Close>>	{ ::tkcon::Destroy }
-    bind $PRIV(root) <<TkCon_About>>	{ ::tkcon::About }
-    bind $PRIV(root) <<TkCon_Find>>	{ ::tkcon::FindBox $::tkcon::PRIV(console) }
-    bind $PRIV(root) <<TkCon_Slave>>	{
+	bind $PRIV(root) <<TkCon_ResizeUp>> ::tkcon::ResizeUp
+	bind $PRIV(root) <<TkCon_ResizeDn>> ::tkcon::ResizeDn
+
+    bind $PRIV(root) <<TkCon_Exit>>     exit
+    bind $PRIV(root) <<TkCon_New>>      { ::tkcon::New }
+    bind $PRIV(root) <<TkCon_NewTab>>   { ::tkcon::NewTab }
+    bind $PRIV(root) <<TkCon_NextTab>>  { ::tkcon::GotoTab 1 ; break }
+    bind $PRIV(root) <<TkCon_PrevTab>>  { ::tkcon::GotoTab -1 ; break }
+    bind $PRIV(root) <<TkCon_Close>>    { ::tkcon::Destroy }
+    bind $PRIV(root) <<TkCon_About>>    { ::tkcon::About }
+    bind $PRIV(root) <<TkCon_Find>>     { ::tkcon::FindBox $::tkcon::PRIV(console) }
+    bind $PRIV(root) <<TkCon_Slave>>    {
 	::tkcon::Attach {}
 	::tkcon::RePrompt "\n" [::tkcon::CmdGet $::tkcon::PRIV(console)]
     }
